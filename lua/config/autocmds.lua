@@ -12,10 +12,10 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "SessionLoadPost" }, {
     -- 1. Get the LazyVim-detected project root
     local root = LazyVim.root.get()
 
-    -- 2. Force Neovim's CWD to match the detected Root
-    if root and root ~= "" and root ~= vim.uv.cwd() then
-      vim.api.nvim_set_current_dir(root)
-    end
+    -- -- 2. Force Neovim's CWD to match the detected Root
+    -- if root and root ~= "" and root ~= vim.uv.cwd() then
+    --   vim.api.nvim_set_current_dir(root)
+    -- end
 
     -- 3. Get updated paths for the notification
     local cwd = vim.uv.cwd()
@@ -26,5 +26,15 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "SessionLoadPost" }, {
       vim.log.levels.INFO,
       { title = "Session & Directory Synced" }
     )
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufReadPost", {
+  once = true,
+  callback = function()
+    local root = require("lazyvim.util").root.get()
+    if root and vim.fn.isdirectory(root) == 1 then
+      vim.cmd.cd(root)
+    end
   end,
 })
