@@ -1,0 +1,7 @@
+{
+  "Console Log": {
+    "prefix": "clog",
+    "body": ["console.log('${1:variable}', ${1:variable});"],
+    "description": "Log variable to console"
+  }
+}
